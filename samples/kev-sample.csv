@@ -1,0 +1,12 @@
+cveID,vendorProject,product,vulnerabilityName,dateAdded,shortDescription,requiredAction,dueDate,knownRansomwareCampaignUse,notes,cwes
+CVE-2024-0103,Acme,Product 1,"Acme Product 1 Vulnerability",2024-11-20,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Known,https://example.org/kev/1,CWE-22
+CVE-2024-0108,Globex,Product 2,"Globex Product 2 Vulnerability",2025-02-14,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Unknown,https://example.org/kev/2,CWE-79
+CVE-2024-0112,Initech,Product 3,"Initech Product 3 Vulnerability",2025-03-03,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Known,https://example.org/kev/3,CWE-416
+CVE-2024-0117,Umbrella,Product 4,"Umbrella Product 4 Vulnerability",2025-05-19,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Unknown,https://example.org/kev/4,CWE-787
+CVE-2024-0121,Hooli,Product 5,"Hooli Product 5 Vulnerability",2025-08-08,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Unknown,https://example.org/kev/5,CWE-78
+CVE-2024-0126,Stark Industries,Product 6,"Stark Industries Product 6 Vulnerability",2025-10-30,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Known,https://example.org/kev/6,CWE-20
+CVE-2024-0130,Acme,Product 7,"Acme Product 7 Vulnerability",2026-01-12,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Unknown,https://example.org/kev/7,CWE-89
+CVE-2025-0141,Globex,Product 8,"Globex Product 8 Vulnerability",2025-06-02,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Unknown,https://example.org/kev/8,CWE-787
+CVE-2025-0145,Initech,Product 9,"Initech Product 9 Vulnerability",2026-02-20,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Unknown,https://example.org/kev/9,CWE-78
+CVE-2021-0999,Umbrella,Product 10,"Umbrella Product 10 Vulnerability",2025-04-22,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Known,https://example.org/kev/10,CWE-20
+CVE-2024-0133,Hooli,Product 11,"Hooli Product 11 Vulnerability",2026-04-15,"Synthetic description.","Apply mitigations per vendor instructions.",2026-12-31,Unknown,https://example.org/kev/11,CWE-787

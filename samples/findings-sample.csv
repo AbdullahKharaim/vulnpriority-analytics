@@ -1,0 +1,7 @@
+asset_id,cve_id,asset_criticality,internet_facing
+web-portal,CVE-2024-0117,high,true
+web-portal,CVE-2024-0125,high,true
+mail-gw,CVE-2024-0101,medium,false
+hr-app,CVE-2024-0105,low,false
+hr-app,CVE-2023-9999,low,false
+core-db,CVE-2024-0105,high,false
