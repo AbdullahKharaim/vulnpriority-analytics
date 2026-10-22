@@ -2,3 +2,33 @@ __pycache__/
 *.pyc
 *.db
 .venv/
+
+# Raw downloads and local databases (re-download with docs/DATA_SOURCES.md)
+data/
+*.db.tmp
+*.sqlite
+*.sqlite3
+*.json.gz
+*.csv.gz
+nvdcve-*.json
+known_exploited_vulnerabilities.csv
+epss_scores-*.csv
+!samples/epss_scores-*.csv
+!samples/nvdcve-*.json
+
+# Private planning package (specification drafts, hidden acceptance tests, agent prompts)
+planning/
+
+# Secrets and local environment
+.env
+.env.*
+*.pem
+*.key
+
+# Temporary and editor files
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
