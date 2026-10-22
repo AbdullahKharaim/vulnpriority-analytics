@@ -8,6 +8,10 @@ data/
 *.db.tmp
 *.sqlite
 *.sqlite3
+*.db-*
+*.sqlite-*
+*.sqlite3-*
+*.db-journal
 *.json.gz
 *.csv.gz
 nvdcve-*.json
@@ -24,6 +28,19 @@ planning/
 .env.*
 *.pem
 *.key
+*.pfx
+*.p12
+.ssh/
+credentials*.json
+
+# Personal portfolio source material is kept outside the public repository
+/private/
+/CV/
+/cv/
+/resume*
+/Resume*
+/CV.*
+/cv.*
 
 # Temporary and editor files
 *.tmp
@@ -32,3 +49,6 @@ planning/
 Thumbs.db
 .vscode/
 .idea/
+.pytest_cache/
+.coverage
+htmlcov/

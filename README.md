@@ -11,9 +11,13 @@ plan. Version 1.0.0 uses only Python's standard library and SQLite.
 
 ## Results on real data
 
-One run on public data, with the CISA KEV catalogue as of **2026-10-16**. Numbers come from
+One run on public data, with a latest loaded CISA KEV addition date of **2026-10-16**.
+This is the tool's coverage cutoff, rather than a recorded download timestamp. Numbers come from
 [`results/report.json`](results/report.json); readable versions are in
 [`results/report.md`](results/report.md) and [`results/report.html`](results/report.html).
+The analysis was recomputed from the existing local database during release verification on
+2026-10-22. See [release verification](docs/RELEASE_VERIFICATION.md) and
+[input checksums](results/inputs.sha256) for evidence and reproduction limits.
 
 | Dataset | Size |
 | --- | --- |
@@ -93,7 +97,10 @@ All operations run locally. The toolkit never downloads data or executes third-p
 
 The repository author designed and operates **AI Development Team**, a human-supervised workflow
 that runs Claude Code and Codex CLI in an isolated WSL2 environment with a fixed budget (at most 2
-review cycles, 7 model calls and 60 minutes per task). For this project:
+review cycles, 7 model calls and 60 minutes per task). The prior release-preparation account
+describes the following workflow. Original orchestration and reviewer logs are not present in
+this checkout; run-budget, timing and hidden-test claims below are reported history rather than
+independently reverified measurements:
 
 1. **Planning (Claude Code, with the author).** The author set the goal of a CV project that combines
    data analytics with cybersecurity. Claude Code proposed the scope and wrote the binding
@@ -103,7 +110,7 @@ review cycles, 7 model calls and 60 minutes per task). For this project:
 2. **Implementation (Codex CLI).** Codex implemented the package, its 40 unit tests, the README and
    [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) from the specification. The requested model was
    `gpt-6.1-sol` with reasoning effort `xhigh`; the CLI does not report which model actually ran.
-3. **Review (Claude Code).** The reviewer approved the result after **one review cycle**, using
+3. **Review (Claude Code, reported).** The reviewer approved the result after **one review cycle**, using
    **3 of 7 model calls** in about **14 minutes**. **All 61 hidden acceptance tests and 40 unit
    tests passed**, and the reviewer recorded three low-severity findings (see
    [Known issues](#known-issues)).
@@ -125,6 +132,9 @@ dependencies. From the repository root:
 python3 --version
 python3 -m vulnprio --version
 ```
+
+On Windows, use `py -3` or `python` in place of `python3`. The quick-start shell examples
+below use Bash (Linux, macOS or WSL); a PowerShell equivalent follows them.
 
 Run commands from this directory, or place its parent package directory on `PYTHONPATH`.
 
@@ -157,6 +167,20 @@ python3 -m vulnprio triage --db "$OUT/sample.sqlite" \
   --findings samples/findings-sample.csv --format markdown --output "$OUT/remediation.md"
 ```
 
+PowerShell, from the repository root:
+
+```powershell
+$outDir = Join-Path ([System.IO.Path]::GetTempPath()) ([guid]::NewGuid().ToString())
+New-Item -ItemType Directory -Path $outDir | Out-Null
+py -3 -m vulnprio build --db "$outDir/sample.sqlite" `
+  --nvd samples/nvdcve-2.0-sample.json --kev samples/kev-sample.csv `
+  --epss samples/epss_scores-2025-01-01.csv samples/epss_scores-2025-04-01.csv
+py -3 -m vulnprio analyze --db "$outDir/sample.sqlite" --format html --output "$outDir/analysis.html"
+py -3 -m vulnprio triage --db "$outDir/sample.sqlite" `
+  --findings samples/findings-sample.csv --output "$outDir/remediation.csv"
+py -3 -m unittest discover -s tests -t .
+```
+
 The sample build contains 49 CVEs, 11 KEV entries and two EPSS snapshots. Both snapshot dates
 have complete default outcome windows and six positives in their respective populations.
 Sample triage without `--as-of` includes all four remediation tiers.
@@ -183,7 +207,7 @@ python3 -m vulnprio analyze --db "$OUT/real.sqlite" \
   --format html --output "$OUT/real-analysis.html"
 ```
 
-For the published results, the build took about 4 minutes and produced a 206 MB database, and the
+The prior real-data run report states that the build took about 4 minutes and produced a 206 MB database, and the
 analysis took about 3 seconds (Windows 11 laptop, Python 3.13). The default 365-day horizon requires
 a maximum KEV addition date of at least 2026-10-01 to include all eight snapshots. Automatic date
 selection uses only complete windows. An explicitly requested date with an incomplete window is an
@@ -288,11 +312,13 @@ interval construction and interpretation.
 python3 -m unittest discover -s tests -t .
 ```
 
+Release verification on 2026-10-22 ran all 40 repository tests successfully on Python 3.13.12.
 The 40 repository tests use only the standard library, local samples, in-memory SQLite and
 temporary directories. They require no network and do not write into the repository, so the
 repository root can be read-only. Set `PYTHONDONTWRITEBYTECODE=1` to suppress Python's optional
 import caches as well. The 61 hidden acceptance tests used to verify the AI-built implementation
-are part of the private planning package and are not included in this repository.
+are part of the private planning package and are not included in this repository. Their 61/61
+result comes from the prior run report; they were not rerun during release preparation.
 
 ## Limitations
 
@@ -317,8 +343,8 @@ Low-severity findings from the automated review, not yet fixed:
 
 1. A truncated or corrupted `.gz` input stops `build` with a Python traceback instead of a clean
    `error:` message (exit code 1). Because the build is atomic, no partial database is left behind.
-2. The NVD streaming parser copies part of its buffer after every record. It is still fast enough
-   for real feeds (about 75 MB/s in a local benchmark; the full real build took about 4 minutes).
+2. The NVD streaming parser copies part of its buffer after every record. This can add processing
+   overhead; the prior real-data run reported a build time of about 4 minutes.
 3. If a record in the middle of an NVD feed is invalid JSON, the parser reads to the end of the file
    before reporting the error, so memory use is not bounded in that error case.
 
@@ -338,8 +364,8 @@ Review each provider's terms of use before redistributing their data.
 vulnprio/          package: ingest, storage, backtest, insights, triage, report, cli
 tests/             40 unit tests (standard library only)
 samples/           synthetic sample inputs in the real file formats
-docs/              DATA_SOURCES.md and METHODOLOGY.md
-results/           published results of the real-data run (JSON, Markdown, HTML)
+docs/              data sources, methodology and release verification
+results/           real-data reports (JSON, Markdown, HTML) and input checksums
 SPEC.md            binding specification used by the AI Development Team
 LICENSE            MIT License
 ```
