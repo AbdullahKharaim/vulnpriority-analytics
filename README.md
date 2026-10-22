@@ -341,9 +341,10 @@ samples/           synthetic sample inputs in the real file formats
 docs/              DATA_SOURCES.md and METHODOLOGY.md
 results/           published results of the real-data run (JSON, Markdown, HTML)
 SPEC.md            binding specification used by the AI Development Team
+LICENSE            MIT License
 ```
 
 ## License
 
-No license has been chosen yet. Until one is added, default copyright applies and reuse requires
-the author's permission.
+Released under the [MIT License](LICENSE). The license covers the code and documentation in this
+repository. The NVD, CISA KEV and FIRST EPSS data remain subject to their providers' terms.
