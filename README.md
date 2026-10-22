@@ -1,14 +1,81 @@
-# vulnpriority-analytics
+# VulnPriority Analytics
 
-An offline Python toolkit for measuring vulnerability prioritization and turning scanner findings
-into an auditable remediation plan. Version 1.0.0 uses Python's standard library and SQLite.
+**Which vulnerabilities should a security team patch first?** VulnPriority Analytics is an offline
+Python toolkit that backtests patch-prioritisation strategies on real public data (NVD, CISA KEV
+and FIRST EPSS) and turns an organisation's scanner findings into an auditable P1–P4 remediation
+plan. Version 1.0.0 uses only Python's standard library and SQLite.
+
+> This project was built with the author's **AI Development Team** workflow, in which Claude Code
+> (architect and reviewer) and Codex CLI (implementer) collaborate under human supervision. See
+> [How this project was built](#how-this-project-was-built) for exactly what that means.
+
+## Results on real data
+
+One run on public data, with the CISA KEV catalogue as of **2026-10-16**. Numbers come from
+[`results/report.json`](results/report.json); readable versions are in
+[`results/report.md`](results/report.md) and [`results/report.html`](results/report.html).
+
+| Dataset | Size |
+| --- | --- |
+| NVD CVE JSON 2.0 feeds 2021–2025 | 167,132 CVEs (5,348 rejected, 3,388 without a CVSS v3 score) |
+| CISA Known Exploited Vulnerabilities | 1,748 entries |
+| FIRST EPSS daily snapshots | 8 quarterly snapshots, 2024-01-01 to 2025-10-01 (2,099,758 scores, models v2023.03.01 and v2025.03.14) |
+
+**Backtest design.** At each of the 8 decision dates, the population is CVEs published in the
+previous 730 days that had a CVSS score and an EPSS score and were not yet in KEV. A CVE counts
+as *later exploited* if it was added to KEV within the next 365 days. This gives 522,907
+CVE-decision instances and 284 later-exploited ones (base rate 0.054%, about 1 in 1,841).
+
+| Strategy (pooled over 8 dates) | Share patched (effort) | Later-exploited caught (coverage) | Lift vs. random |
+| --- | --- | --- | --- |
+| CVSS ≥ 9.0 ("critical only") | 14.00% | 42.61% | 3.04× |
+| CVSS ≥ 7.0 | 51.27% | 90.85% | 1.77× |
+| Top EPSS, same effort as "critical only" | 14.00% | 49.30% | 3.52× |
+| EPSS ≥ 0.1 | 1.38% | 20.77% | 15.09× |
+
+| Patching budget | Coverage when ranking by EPSS | Coverage when ranking by CVSS |
+| --- | --- | --- |
+| 1% | 19.37% | 5.28% |
+| 2% | 23.94% | 6.69% |
+| 5% | 34.15% | 8.45% |
+| 10% | 44.37% | 23.24% |
+| 20% | 55.28% | 48.94% |
+| 30% | 64.08% | 62.68% |
+| 50% | 75.35% | 88.38% |
+
+**What the numbers say**
+
+- With a small budget, EPSS ranking is far better. Patching the top 1% caught 3.7× as many
+  later-exploited CVEs as the top 1% by CVSS (19.37% vs 5.28%).
+- With a large budget, CVSS catches up and then overtakes. At 50% effort it caught 88.38% vs 75.35%.
+- At exactly the "critical only" effort, EPSS caught 6.69 percentage points more. **This difference
+  is not statistically significant**: the paired bootstrap 95% confidence interval is −0.35 to
+  +14.08 points (1,000 resamples of the 284 positives, seed 42).
+- Observation, not a tested result: under the newer EPSS model (v2025.03.14, last three dates),
+  top-EPSS beat "critical only" at all three dates. Under the older model it won once, tied once
+  and lost three times. The newer model also put far more CVEs above 0.1 (1,651–2,181 per date
+  instead of 313–375), so fixed EPSS thresholds need recalibration when the model changes.
+
+**Exploitation insights** (KEV additions from 2024-01-01 to 2026-10-01: 678 entries; 440 matched to
+the 2021–2025 NVD feeds)
+
+- 60.0% of the matched exploited CVEs were scored below CVSS 9.0, and 11.1% below 7.0.
+- Median time from NVD publication to KEV listing was 22.5 days. 20.2% were listed on or before
+  the publication date, 40.5% within 7 days, and 16.8% after more than a year.
+- 102 of 678 entries (15.0%) are marked as used in ransomware campaigns.
+- Most frequent vendors: Microsoft (114), Cisco (32), Apple (25), Google (24) and Ivanti (23). Most
+  frequent weaknesses: CWE-78 OS command injection (45), CWE-502 deserialization (39) and CWE-22
+  path traversal (34).
+
+These results describe one data snapshot. NVD, KEV and EPSS change daily, so a later run will
+produce different numbers. See [Limitations](#limitations).
 
 ## Problem
 
 Security teams have more findings than remediation capacity. Severity alone does not indicate
 which vulnerabilities will become known exploited. This toolkit compares CVSS and EPSS strategies
 at historical decision dates, measures their coverage at different effort levels, and combines
-exploitation evidence with asset context to prioritize current findings.
+exploitation evidence with asset context to prioritise current findings.
 
 ## Features
 
@@ -21,6 +88,33 @@ exploitation evidence with asset context to prioritize current findings.
 - Export deterministic JSON, Markdown, self-contained HTML with inline SVG charts, and triage CSV.
 
 All operations run locally. The toolkit never downloads data or executes third-party code.
+
+## How this project was built
+
+The repository author designed and operates **AI Development Team**, a human-supervised workflow
+that runs Claude Code and Codex CLI in an isolated WSL2 environment with a fixed budget (at most 2
+review cycles, 7 model calls and 60 minutes per task). For this project:
+
+1. **Planning (Claude Code, with the author).** The author set the goal of a CV project that combines
+   data analytics with cybersecurity. Claude Code proposed the scope and wrote the binding
+   specification ([`SPEC.md`](SPEC.md)), the provided skeleton and samples, and 61 hidden acceptance
+   tests. Before the run, the tests were checked against a private reference implementation that
+   was not given to the implementer.
+2. **Implementation (Codex CLI).** Codex implemented the package, its 40 unit tests, the README and
+   [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) from the specification. The requested model was
+   `gpt-6.1-sol` with reasoning effort `xhigh`; the CLI does not report which model actually ran.
+3. **Review (Claude Code).** The reviewer approved the result after **one review cycle**, using
+   **3 of 7 model calls** in about **14 minutes**. **All 61 hidden acceptance tests and 40 unit
+   tests passed**, and the reviewer recorded three low-severity findings (see
+   [Known issues](#known-issues)).
+4. **Real-data run (Claude Code, supervised by the author).** Downloading the data, verifying
+   checksums, building the database, running the analysis and preparing this release were done
+   afterwards, outside the automated run.
+
+The code was generated by AI agents, not written by hand. The author's role was to set goals and
+constraints, approve each step, launch the run and check the results. The commit history keeps this
+visible: `98d44cb` (specification and skeleton, `aidev-architect`) and `281f9d1` (implementation,
+`aidev-orchestrator`), followed by release documentation commits.
 
 ## Installation
 
@@ -69,10 +163,9 @@ Sample triage without `--as-of` includes all four remediation tiers.
 
 ## Real data
 
-See [Data sources](docs/DATA_SOURCES.md) for the official download locations, used fields,
-integrity information and recommended dataset. Download the files separately; then run the toolkit
-offline. For the recommended five NVD yearly feeds, current KEV CSV and eight quarterly EPSS
-snapshots, with files in `data/`:
+Raw data is **not** included in this repository. See [Data sources](docs/DATA_SOURCES.md) for the
+official download locations, used fields, integrity checks and the recommended dataset (about
+100 MB). Download the files separately into `data/` (ignored by Git), then run the toolkit offline:
 
 ```bash
 OUT=$(mktemp -d)
@@ -90,9 +183,11 @@ python3 -m vulnprio analyze --db "$OUT/real.sqlite" \
   --format html --output "$OUT/real-analysis.html"
 ```
 
-The default 365-day horizon requires a maximum KEV addition date of at least 2026-10-01 to
-include all eight snapshots. Automatic date selection uses only complete windows. An explicitly
-requested date with an incomplete window is an error.
+For the published results, the build took about 4 minutes and produced a 206 MB database, and the
+analysis took about 3 seconds (Windows 11 laptop, Python 3.13). The default 365-day horizon requires
+a maximum KEV addition date of at least 2026-10-01 to include all eight snapshots. Automatic date
+selection uses only complete windows. An explicitly requested date with an incomplete window is an
+error.
 
 ## Commands
 
@@ -193,9 +288,11 @@ interval construction and interpretation.
 python3 -m unittest discover -s tests -t .
 ```
 
-Tests use only the standard library, local samples, in-memory SQLite and temporary directories.
-They require no network and do not write into the repository, so the repository root can be
-read-only. Set `PYTHONDONTWRITEBYTECODE=1` to suppress Python's optional import caches as well.
+The 40 repository tests use only the standard library, local samples, in-memory SQLite and
+temporary directories. They require no network and do not write into the repository, so the
+repository root can be read-only. Set `PYTHONDONTWRITEBYTECODE=1` to suppress Python's optional
+import caches as well. The 61 hidden acceptance tests used to verify the AI-built implementation
+are part of the private planning package and are not included in this repository.
 
 ## Limitations
 
@@ -209,5 +306,44 @@ read-only. Set `PYTHONDONTWRITEBYTECODE=1` to suppress Python's optional import 
   window and do not validate the probability calibration for it.
 - Overlapping decision windows can contain the same CVE. Pooled counts are date/CVE instances;
   the specified bootstrap resamples those instances and does not model all temporal dependence.
+- The published results cover one data snapshot and eight decision dates; 284 positives is a small
+  sample, which is why the main EPSS-versus-CVSS difference is not statistically significant.
 - Triage provides a transparent default policy. It needs local review alongside remediation cost,
   compensating controls and asset context. Synthetic samples are illustrative only.
+
+## Known issues
+
+Low-severity findings from the automated review, not yet fixed:
+
+1. A truncated or corrupted `.gz` input stops `build` with a Python traceback instead of a clean
+   `error:` message (exit code 1). Because the build is atomic, no partial database is left behind.
+2. The NVD streaming parser copies part of its buffer after every record. It is still fast enough
+   for real feeds (about 75 MB/s in a local benchmark; the full real build took about 4 minutes).
+3. If a record in the middle of an NVD feed is invalid JSON, the parser reads to the end of the file
+   before reporting the error, so memory use is not bounded in that error case.
+
+## Data sources and attribution
+
+- **NVD** (NIST National Vulnerability Database) CVE JSON 2.0 feeds. This product uses data from
+  the NVD but is not endorsed or certified by the NVD.
+- **CISA Known Exploited Vulnerabilities** catalogue.
+- **FIRST EPSS** (Exploit Prediction Scoring System) daily scores.
+
+The repository contains only synthetic samples and aggregate results, not the raw datasets.
+Review each provider's terms of use before redistributing their data.
+
+## Project structure
+
+```
+vulnprio/          package: ingest, storage, backtest, insights, triage, report, cli
+tests/             40 unit tests (standard library only)
+samples/           synthetic sample inputs in the real file formats
+docs/              DATA_SOURCES.md and METHODOLOGY.md
+results/           published results of the real-data run (JSON, Markdown, HTML)
+SPEC.md            binding specification used by the AI Development Team
+```
+
+## License
+
+No license has been chosen yet. Until one is added, default copyright applies and reuse requires
+the author's permission.

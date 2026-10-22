@@ -1,0 +1,757 @@
+{
+  "backtest": {
+    "bootstrap": {
+      "ci_high": 0.140845,
+      "ci_low": -0.003521,
+      "compare": [
+        "EPSS_EFFORT_MATCHED",
+        "CVSS_CRITICAL"
+      ],
+      "confidence": 0.95,
+      "iterations": 1000,
+      "metric": "coverage_difference",
+      "point_estimate": 0.066901,
+      "positives": 284,
+      "seed": 42,
+      "significant": false
+    },
+    "config": {
+      "bootstrap_iterations": 1000,
+      "confidence": 0.95,
+      "epss_threshold": 0.1,
+      "horizon_days": 365,
+      "lookback_days": 730,
+      "seed": 42
+    },
+    "decision_dates": [
+      "2024-01-01",
+      "2024-04-01",
+      "2024-07-01",
+      "2024-10-01",
+      "2025-01-01",
+      "2025-04-01",
+      "2025-07-01",
+      "2025-10-01"
+    ],
+    "effort_curve": {
+      "CVSS": [
+        0.052817,
+        0.066901,
+        0.084507,
+        0.232394,
+        0.489437,
+        0.626761,
+        0.883803,
+        1.0
+      ],
+      "EPSS": [
+        0.193662,
+        0.239437,
+        0.341549,
+        0.443662,
+        0.552817,
+        0.640845,
+        0.753521,
+        1.0
+      ],
+      "levels_pct": [
+        1,
+        2,
+        5,
+        10,
+        20,
+        30,
+        50,
+        100
+      ]
+    },
+    "kev_as_of": "2026-10-16",
+    "per_date": [
+      {
+        "base_rate": 0.000502,
+        "decision_date": "2024-01-01",
+        "epss_model_version": "v2023.03.01",
+        "excluded_known_exploited": 245,
+        "excluded_no_cvss": 13,
+        "excluded_no_epss": 2,
+        "population": 51806,
+        "positives": 26,
+        "positives_without_cvss": 0,
+        "strategies": [
+          {
+            "coverage": 0.461538,
+            "efficiency": 0.001451,
+            "effort": 0.159634,
+            "flagged": 8270,
+            "lift": 2.891229,
+            "strategy": "CVSS_CRITICAL",
+            "true_positives": 12
+          },
+          {
+            "coverage": 0.846154,
+            "efficiency": 0.000768,
+            "effort": 0.552909,
+            "flagged": 28644,
+            "lift": 1.530367,
+            "strategy": "CVSS_HIGH_PLUS",
+            "true_positives": 22
+          },
+          {
+            "coverage": 0.692308,
+            "efficiency": 0.002177,
+            "effort": 0.159634,
+            "flagged": 8270,
+            "lift": 4.336843,
+            "strategy": "EPSS_EFFORT_MATCHED",
+            "true_positives": 18
+          },
+          {
+            "coverage": 0.230769,
+            "efficiency": 0.016,
+            "effort": 0.007239,
+            "flagged": 375,
+            "lift": 31.880615,
+            "strategy": "EPSS_THRESHOLD",
+            "true_positives": 6
+          }
+        ],
+        "window_end": "2024-12-31"
+      },
+      {
+        "base_rate": 0.000441,
+        "decision_date": "2024-04-01",
+        "epss_model_version": "v2023.03.01",
+        "excluded_known_exploited": 237,
+        "excluded_no_cvss": 15,
+        "excluded_no_epss": 15,
+        "population": 54458,
+        "positives": 24,
+        "positives_without_cvss": 0,
+        "strategies": [
+          {
+            "coverage": 0.541667,
+            "efficiency": 0.001516,
+            "effort": 0.157516,
+            "flagged": 8578,
+            "lift": 3.438807,
+            "strategy": "CVSS_CRITICAL",
+            "true_positives": 13
+          },
+          {
+            "coverage": 1.0,
+            "efficiency": 0.00081,
+            "effort": 0.544181,
+            "flagged": 29635,
+            "lift": 1.837624,
+            "strategy": "CVSS_HIGH_PLUS",
+            "true_positives": 24
+          },
+          {
+            "coverage": 0.5,
+            "efficiency": 0.001399,
+            "effort": 0.157516,
+            "flagged": 8578,
+            "lift": 3.174283,
+            "strategy": "EPSS_EFFORT_MATCHED",
+            "true_positives": 12
+          },
+          {
+            "coverage": 0.208333,
+            "efficiency": 0.014368,
+            "effort": 0.00639,
+            "flagged": 348,
+            "lift": 32.601772,
+            "strategy": "EPSS_THRESHOLD",
+            "true_positives": 5
+          }
+        ],
+        "window_end": "2025-04-01"
+      },
+      {
+        "base_rate": 0.000587,
+        "decision_date": "2024-07-01",
+        "epss_model_version": "v2023.03.01",
+        "excluded_known_exploited": 240,
+        "excluded_no_cvss": 40,
+        "excluded_no_epss": 511,
+        "population": 59600,
+        "positives": 35,
+        "positives_without_cvss": 0,
+        "strategies": [
+          {
+            "coverage": 0.457143,
+            "efficiency": 0.001857,
+            "effort": 0.144564,
+            "flagged": 8616,
+            "lift": 3.162223,
+            "strategy": "CVSS_CRITICAL",
+            "true_positives": 16
+          },
+          {
+            "coverage": 0.971429,
+            "efficiency": 0.001089,
+            "effort": 0.523876,
+            "flagged": 31223,
+            "lift": 1.854311,
+            "strategy": "CVSS_HIGH_PLUS",
+            "true_positives": 34
+          },
+          {
+            "coverage": 0.457143,
+            "efficiency": 0.001857,
+            "effort": 0.144564,
+            "flagged": 8616,
+            "lift": 3.162223,
+            "strategy": "EPSS_EFFORT_MATCHED",
+            "true_positives": 16
+          },
+          {
+            "coverage": 0.114286,
+            "efficiency": 0.012658,
+            "effort": 0.005302,
+            "flagged": 316,
+            "lift": 21.555154,
+            "strategy": "EPSS_THRESHOLD",
+            "true_positives": 4
+          }
+        ],
+        "window_end": "2025-07-01"
+      },
+      {
+        "base_rate": 0.000695,
+        "decision_date": "2024-10-01",
+        "epss_model_version": "v2023.03.01",
+        "excluded_known_exploited": 252,
+        "excluded_no_cvss": 119,
+        "excluded_no_epss": 497,
+        "population": 61850,
+        "positives": 43,
+        "positives_without_cvss": 0,
+        "strategies": [
+          {
+            "coverage": 0.44186,
+            "efficiency": 0.002199,
+            "effort": 0.139709,
+            "flagged": 8641,
+            "lift": 3.162721,
+            "strategy": "CVSS_CRITICAL",
+            "true_positives": 19
+          },
+          {
+            "coverage": 0.930233,
+            "efficiency": 0.001258,
+            "effort": 0.514002,
+            "flagged": 31791,
+            "lift": 1.809785,
+            "strategy": "CVSS_HIGH_PLUS",
+            "true_positives": 40
+          },
+          {
+            "coverage": 0.418605,
+            "efficiency": 0.002083,
+            "effort": 0.139709,
+            "flagged": 8641,
+            "lift": 2.996262,
+            "strategy": "EPSS_EFFORT_MATCHED",
+            "true_positives": 18
+          },
+          {
+            "coverage": 0.093023,
+            "efficiency": 0.012739,
+            "effort": 0.005077,
+            "flagged": 314,
+            "lift": 18.323211,
+            "strategy": "EPSS_THRESHOLD",
+            "true_positives": 4
+          }
+        ],
+        "window_end": "2025-10-01"
+      },
+      {
+        "base_rate": 0.000588,
+        "decision_date": "2025-01-01",
+        "epss_model_version": "v2023.03.01",
+        "excluded_known_exploited": 272,
+        "excluded_no_cvss": 317,
+        "excluded_no_epss": 496,
+        "population": 66365,
+        "positives": 39,
+        "positives_without_cvss": 0,
+        "strategies": [
+          {
+            "coverage": 0.384615,
+            "efficiency": 0.001673,
+            "effort": 0.135086,
+            "flagged": 8965,
+            "lift": 2.847183,
+            "strategy": "CVSS_CRITICAL",
+            "true_positives": 15
+          },
+          {
+            "coverage": 0.871795,
+            "efficiency": 0.001013,
+            "effort": 0.505703,
+            "flagged": 33561,
+            "lift": 1.723926,
+            "strategy": "CVSS_HIGH_PLUS",
+            "true_positives": 34
+          },
+          {
+            "coverage": 0.333333,
+            "efficiency": 0.00145,
+            "effort": 0.135086,
+            "flagged": 8965,
+            "lift": 2.467559,
+            "strategy": "EPSS_EFFORT_MATCHED",
+            "true_positives": 13
+          },
+          {
+            "coverage": 0.076923,
+            "efficiency": 0.009585,
+            "effort": 0.004716,
+            "flagged": 313,
+            "lift": 16.309904,
+            "strategy": "EPSS_THRESHOLD",
+            "true_positives": 3
+          }
+        ],
+        "window_end": "2026-01-01"
+      },
+      {
+        "base_rate": 0.000473,
+        "decision_date": "2025-04-01",
+        "epss_model_version": "v2025.03.14",
+        "excluded_known_exploited": 304,
+        "excluded_no_cvss": 573,
+        "excluded_no_epss": 1,
+        "population": 71939,
+        "positives": 34,
+        "positives_without_cvss": 0,
+        "strategies": [
+          {
+            "coverage": 0.411765,
+            "efficiency": 0.001505,
+            "effort": 0.129346,
+            "flagged": 9305,
+            "lift": 3.183443,
+            "strategy": "CVSS_CRITICAL",
+            "true_positives": 14
+          },
+          {
+            "coverage": 0.852941,
+            "efficiency": 0.000813,
+            "effort": 0.495948,
+            "flagged": 35678,
+            "lift": 1.71982,
+            "strategy": "CVSS_HIGH_PLUS",
+            "true_positives": 29
+          },
+          {
+            "coverage": 0.529412,
+            "efficiency": 0.001934,
+            "effort": 0.129346,
+            "flagged": 9305,
+            "lift": 4.092999,
+            "strategy": "EPSS_EFFORT_MATCHED",
+            "true_positives": 18
+          },
+          {
+            "coverage": 0.323529,
+            "efficiency": 0.005044,
+            "effort": 0.030317,
+            "flagged": 2181,
+            "lift": 10.671427,
+            "strategy": "EPSS_THRESHOLD",
+            "true_positives": 11
+          }
+        ],
+        "window_end": "2026-04-01"
+      },
+      {
+        "base_rate": 0.000511,
+        "decision_date": "2025-07-01",
+        "epss_model_version": "v2025.03.14",
+        "excluded_known_exploited": 320,
+        "excluded_no_cvss": 959,
+        "excluded_no_epss": 4,
+        "population": 76299,
+        "positives": 39,
+        "positives_without_cvss": 0,
+        "strategies": [
+          {
+            "coverage": 0.307692,
+            "efficiency": 0.001181,
+            "effort": 0.133121,
+            "flagged": 10157,
+            "lift": 2.311373,
+            "strategy": "CVSS_CRITICAL",
+            "true_positives": 12
+          },
+          {
+            "coverage": 0.897436,
+            "efficiency": 0.000925,
+            "effort": 0.495799,
+            "flagged": 37829,
+            "lift": 1.810079,
+            "strategy": "CVSS_HIGH_PLUS",
+            "true_positives": 35
+          },
+          {
+            "coverage": 0.538462,
+            "efficiency": 0.002068,
+            "effort": 0.133121,
+            "flagged": 10157,
+            "lift": 4.044903,
+            "strategy": "EPSS_EFFORT_MATCHED",
+            "true_positives": 21
+          },
+          {
+            "coverage": 0.358974,
+            "efficiency": 0.008235,
+            "effort": 0.022281,
+            "flagged": 1700,
+            "lift": 16.111403,
+            "strategy": "EPSS_THRESHOLD",
+            "true_positives": 14
+          }
+        ],
+        "window_end": "2026-07-01"
+      },
+      {
+        "base_rate": 0.000546,
+        "decision_date": "2025-10-01",
+        "epss_model_version": "v2025.03.14",
+        "excluded_known_exploited": 307,
+        "excluded_no_cvss": 1505,
+        "excluded_no_epss": 2,
+        "population": 80590,
+        "positives": 44,
+        "positives_without_cvss": 0,
+        "strategies": [
+          {
+            "coverage": 0.454545,
+            "efficiency": 0.001875,
+            "effort": 0.132386,
+            "flagged": 10669,
+            "lift": 3.433482,
+            "strategy": "CVSS_CRITICAL",
+            "true_positives": 20
+          },
+          {
+            "coverage": 0.909091,
+            "efficiency": 0.001007,
+            "effort": 0.492915,
+            "flagged": 39724,
+            "lift": 1.844317,
+            "strategy": "CVSS_HIGH_PLUS",
+            "true_positives": 40
+          },
+          {
+            "coverage": 0.545455,
+            "efficiency": 0.00225,
+            "effort": 0.132386,
+            "flagged": 10669,
+            "lift": 4.120178,
+            "strategy": "EPSS_EFFORT_MATCHED",
+            "true_positives": 24
+          },
+          {
+            "coverage": 0.272727,
+            "efficiency": 0.007268,
+            "effort": 0.020486,
+            "flagged": 1651,
+            "lift": 13.312593,
+            "strategy": "EPSS_THRESHOLD",
+            "true_positives": 12
+          }
+        ],
+        "window_end": "2026-10-01"
+      }
+    ],
+    "pooled": {
+      "base_rate": 0.000543,
+      "population": 522907,
+      "positives": 284,
+      "strategies": [
+        {
+          "coverage": 0.426056,
+          "efficiency": 0.001653,
+          "effort": 0.139989,
+          "flagged": 73201,
+          "lift": 3.043508,
+          "strategy": "CVSS_CRITICAL",
+          "true_positives": 121
+        },
+        {
+          "coverage": 0.908451,
+          "efficiency": 0.000962,
+          "effort": 0.512682,
+          "flagged": 268085,
+          "lift": 1.771958,
+          "strategy": "CVSS_HIGH_PLUS",
+          "true_positives": 258
+        },
+        {
+          "coverage": 0.492958,
+          "efficiency": 0.001913,
+          "effort": 0.139989,
+          "flagged": 73201,
+          "lift": 3.521414,
+          "strategy": "EPSS_EFFORT_MATCHED",
+          "true_positives": 140
+        },
+        {
+          "coverage": 0.207746,
+          "efficiency": 0.008197,
+          "effort": 0.013765,
+          "flagged": 7198,
+          "lift": 15.091982,
+          "strategy": "EPSS_THRESHOLD",
+          "true_positives": 59
+        }
+      ]
+    }
+  },
+  "data": {
+    "cves": 167132,
+    "cves_rejected": 5348,
+    "cves_without_cvss": 3388,
+    "epss_snapshots": [
+      {
+        "model_version": "v2023.03.01",
+        "rows": 220901,
+        "rows_skipped": 0,
+        "snapshot_date": "2024-01-01"
+      },
+      {
+        "model_version": "v2023.03.01",
+        "rows": 240713,
+        "rows_skipped": 0,
+        "snapshot_date": "2024-04-01"
+      },
+      {
+        "model_version": "v2023.03.01",
+        "rows": 252054,
+        "rows_skipped": 0,
+        "snapshot_date": "2024-07-01"
+      },
+      {
+        "model_version": "v2023.03.01",
+        "rows": 260671,
+        "rows_skipped": 0,
+        "snapshot_date": "2024-10-01"
+      },
+      {
+        "model_version": "v2023.03.01",
+        "rows": 271765,
+        "rows_skipped": 0,
+        "snapshot_date": "2025-01-01"
+      },
+      {
+        "model_version": "v2025.03.14",
+        "rows": 272867,
+        "rows_skipped": 0,
+        "snapshot_date": "2025-04-01"
+      },
+      {
+        "model_version": "v2025.03.14",
+        "rows": 284454,
+        "rows_skipped": 0,
+        "snapshot_date": "2025-07-01"
+      },
+      {
+        "model_version": "v2025.03.14",
+        "rows": 296333,
+        "rows_skipped": 0,
+        "snapshot_date": "2025-10-01"
+      }
+    ],
+    "kev_as_of": "2026-10-16",
+    "kev_entries": 1748,
+    "kev_rows_skipped": 0,
+    "nvd_duplicates": 0,
+    "nvd_files": 5,
+    "nvd_items_skipped": 0,
+    "schema_version": 1
+  },
+  "insights": {
+    "below_critical_share": 0.6,
+    "below_high_share": 0.111364,
+    "cvss_bands": [
+      {
+        "band": "critical",
+        "count": 176,
+        "share": 0.4
+      },
+      {
+        "band": "high",
+        "count": 215,
+        "share": 0.488636
+      },
+      {
+        "band": "medium",
+        "count": 48,
+        "share": 0.109091
+      },
+      {
+        "band": "low",
+        "count": 1,
+        "share": 0.002273
+      },
+      {
+        "band": "none",
+        "count": 0,
+        "share": 0.0
+      },
+      {
+        "band": "unscored",
+        "count": 0,
+        "share": 0.0
+      }
+    ],
+    "kev_entries": 678,
+    "lag_days": {
+      "buckets": [
+        {
+          "count": 89,
+          "label": "<=0",
+          "share": 0.202273
+        },
+        {
+          "count": 89,
+          "label": "1-7",
+          "share": 0.202273
+        },
+        {
+          "count": 50,
+          "label": "8-30",
+          "share": 0.113636
+        },
+        {
+          "count": 53,
+          "label": "31-90",
+          "share": 0.120455
+        },
+        {
+          "count": 85,
+          "label": "91-365",
+          "share": 0.193182
+        },
+        {
+          "count": 74,
+          "label": ">365",
+          "share": 0.168182
+        }
+      ],
+      "count": 440,
+      "mean": 207.0,
+      "median": 22.5
+    },
+    "ransomware": {
+      "count": 102,
+      "share": 0.150442
+    },
+    "top_cwes": [
+      {
+        "count": 45,
+        "cwe": "CWE-78"
+      },
+      {
+        "count": 39,
+        "cwe": "CWE-502"
+      },
+      {
+        "count": 34,
+        "cwe": "CWE-22"
+      },
+      {
+        "count": 31,
+        "cwe": "CWE-287"
+      },
+      {
+        "count": 30,
+        "cwe": "CWE-94"
+      },
+      {
+        "count": 28,
+        "cwe": "CWE-416"
+      },
+      {
+        "count": 27,
+        "cwe": "CWE-787"
+      },
+      {
+        "count": 23,
+        "cwe": "CWE-306"
+      },
+      {
+        "count": 18,
+        "cwe": "CWE-77"
+      },
+      {
+        "count": 17,
+        "cwe": "CWE-89"
+      }
+    ],
+    "top_vendors": [
+      {
+        "count": 114,
+        "ransomware": 21,
+        "vendor": "Microsoft"
+      },
+      {
+        "count": 32,
+        "ransomware": 3,
+        "vendor": "Cisco"
+      },
+      {
+        "count": 25,
+        "ransomware": 0,
+        "vendor": "Apple"
+      },
+      {
+        "count": 24,
+        "ransomware": 0,
+        "vendor": "Google"
+      },
+      {
+        "count": 23,
+        "ransomware": 7,
+        "vendor": "Ivanti"
+      },
+      {
+        "count": 20,
+        "ransomware": 5,
+        "vendor": "Fortinet"
+      },
+      {
+        "count": 19,
+        "ransomware": 2,
+        "vendor": "Linux"
+      },
+      {
+        "count": 17,
+        "ransomware": 2,
+        "vendor": "Adobe"
+      },
+      {
+        "count": 13,
+        "ransomware": 3,
+        "vendor": "Oracle"
+      },
+      {
+        "count": 12,
+        "ransomware": 1,
+        "vendor": "Citrix"
+      }
+    ],
+    "window": {
+      "end": "2026-10-01",
+      "start": "2024-01-01"
+    },
+    "with_nvd": 440
+  },
+  "schema_version": 1,
+  "tool": "vulnpriority-analytics",
+  "version": "1.0.0"
+}
